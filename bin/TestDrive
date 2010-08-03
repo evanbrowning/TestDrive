@@ -29,6 +29,7 @@ RR_DIFF_PREFIX = 'diff_for_rr_'
 SVN_CO_DIR_NAME = 'test_drive'
 MARKUS_REPO_DIR = 'repos'
 MARKUS_TEST_FRAMEWORK_REPO_DIR = 'test_framework_repos'
+MARKUS_PDF_STORAGE_DIR = 'pdf_storage'
 SETUP_SHELL_SCRIPT = 'prepare_markus.sh'
 DEFAULT_BRANCH = 'trunk'
 OPTS = GetoptLong.new(
@@ -207,6 +208,7 @@ begin
     FileUtils.cd rr_dir
     FileUtils.mkdir MARKUS_REPO_DIR
     FileUtils.mkdir MARKUS_TEST_FRAMEWORK_REPO_DIR
+    FileUtils.mkdir MARKUS_PDF_STORAGE_DIR
     msgln("ok!")
 
     msg("Checking out instance from #{branch_path} - may take a minute or so...")
@@ -230,6 +232,7 @@ begin
     text = File.read(SVN_CO_DIR_NAME + "/config/environments/development.rb")
     text = text.gsub(/REPOSITORY_STORAGE = ".*"/, 'REPOSITORY_STORAGE = "' + File.expand_path(File.dirname(__FILE__)) + '/' + MARKUS_REPO_DIR + '"')
     text = text.gsub(/TEST_FRAMEWORK_REPOSITORY = ".*"/, 'TEST_FRAMEWORK_REPOSITORY = "' + File.expand_path(File.dirname(__FILE__)) + '/' + MARKUS_TEST_FRAMEWORK_REPO_DIR + '"')
+    text = text.gsub(/PDF_STORAGE = ".*"/, 'PDF_STORAGE = "' + File.expand_path(File.dirname(__FILE__)) + '/' + MARKUS_PDF_STORAGE_DIR + '"')
     File.open(SVN_CO_DIR_NAME + "/config/environments/development.rb", "w" ) do |the_file|
       the_file.puts text
     end
